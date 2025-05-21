@@ -1,20 +1,33 @@
 let questions = [];
 let currentQuestion = null;
 let score = 0;
+let userInteracted = false;
 
+// Start screen elements
+const startScreen = document.getElementById("startScreen");
+const startBtn = document.getElementById("startBtn");
+
+// DOM elements
 const questionDisplay = document.getElementById("question");
 const answerInput = document.getElementById("answerInput");
 const feedback = document.getElementById("feedback");
 const nextBtn = document.getElementById("nextBtn");
 const scoreDisplay = document.getElementById("score");
 
+// Track user interaction to allow audio playback
+startBtn.addEventListener("click", () => {
+  userInteracted = true;
+  startScreen.style.display = "none"; // Hide start screen
+  showQuestion(); // Start the quiz
+});
+
 // Load CSV with PapaParse
 Papa.parse("questions.csv", {
   download: true,
   header: true,
   complete: function(results) {
-    questions = results.data.filter(q => q.jp && q.en); // remove empty rows
-    showQuestion();
+    questions = results.data.filter(q => q.jp && q.en); // Remove empty rows
+    // Wait for user interaction, so showQuestion isn't called yet
   }
 });
 
@@ -37,8 +50,8 @@ function showQuestion() {
   nextBtn.style.display = "none";
   answerInput.focus();
 
-  // Speak the English word automatically
-  if (currentQuestion.en) {
+  // Speak the English word automatically after interaction
+  if (userInteracted && currentQuestion.en) {
     speak(currentQuestion.en);
   }
 }
@@ -84,7 +97,7 @@ answerInput.addEventListener("keydown", function(e) {
 
 nextBtn.addEventListener("click", showQuestion);
 
-// Optional: Manual speak button (if needed)
+// Optional: Manual speak button
 const speakBtn = document.getElementById("speakBtn");
 if (speakBtn) {
   speakBtn.addEventListener("click", function() {
