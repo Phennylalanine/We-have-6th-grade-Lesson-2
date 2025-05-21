@@ -43,7 +43,7 @@ function speak(text) {
 
 function showQuestion() {
   currentQuestion = getRandomQuestion();
-  questionDisplay.textContent = currentQuestion.jp;
+ questionDisplay.textContent = `${currentQuestion.en} ${currentQuestion.jp}`;
   answerInput.value = "";
   answerInput.disabled = false;
   feedback.innerHTML = "";
