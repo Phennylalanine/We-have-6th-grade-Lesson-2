@@ -36,15 +36,47 @@
       right: 20px;
       font-weight: bold;
     }
+    /* Start screen styles */
+    #startScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #startMessage {
+      text-align: center;
+    }
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+  <!-- Start screen -->
+  <div id="startScreen">
+    <div id="startMessage">
+      <h2>英語クイズへようこそ！</h2>
+      <p>始めるにはクリックしてください。</p>
+      <button id="startBtn">Click to Start</button>
+    </div>
+  </div>
+
+  <!-- Quiz content -->
   <div id="score">Score: 0</div>
   <div id="question">Loading...</div>
   <input type="text" id="answerInput" placeholder="Type the English here" autocomplete="off"/>
   <div id="feedback"></div>
- <button id="speakBtn">🔈 Speak</button>
-<button id="nextBtn" style="display: none;">Next</button>
+  <button id="speakBtn">🔈 Speak</button>
+  <button id="nextBtn" style="display: none;">Next</button>
 
   <!-- PapaParse for CSV loading -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
