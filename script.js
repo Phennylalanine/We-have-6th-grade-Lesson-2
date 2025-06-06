@@ -1,6 +1,7 @@
 let questions = [];
 let currentQuestion = null;
 let score = 0;
+let streak = 0; // Add streak variable
 let userInteracted = false;
 
 // Start screen elements
@@ -13,6 +14,7 @@ const answerInput = document.getElementById("answerInput");
 const feedback = document.getElementById("feedback");
 const nextBtn = document.getElementById("nextBtn");
 const scoreDisplay = document.getElementById("score");
+const streakDisplay = document.getElementById("streak"); // Add streak display (assume you add an element with id="streak" in HTML)
 
 // Track user interaction to allow audio playback
 startBtn.addEventListener("click", () => {
@@ -26,7 +28,7 @@ Papa.parse("questions.csv", {
   download: true,
   header: true,
   complete: function(results) {
-    questions = results.data.filter(q => q.jp && q.en); // Remove empty rows
+    questions = results.data.filter(q => q.jp); // Remove empty rows
     // Wait for user interaction, so showQuestion isn't called yet
   }
 });
@@ -43,7 +45,7 @@ function speak(text) {
 
 function showQuestion() {
   currentQuestion = getRandomQuestion();
- questionDisplay.textContent = `${currentQuestion.en} ${currentQuestion.jp}`;
+  questionDisplay.textContent = `${currentQuestion.jp}`;
   answerInput.value = "";
   answerInput.disabled = false;
   feedback.innerHTML = "";
@@ -56,11 +58,17 @@ function showQuestion() {
   }
 }
 
+function updateScoreAndStreakDisplay() {
+  scoreDisplay.textContent = "Score: " + score;
+  streakDisplay.textContent = "Streak: " + streak;
+}
+
 function showFeedback(correct, expected, userInput) {
   if (correct) {
     feedback.innerHTML = "✅ 正解！Good job!";
     score++;
-    scoreDisplay.textContent = "Score: " + score;
+    streak++; // Increment streak
+    updateScoreAndStreakDisplay();
   } else {
     let mismatchIndex = [...expected].findIndex((char, i) => char !== userInput[i]);
     if (mismatchIndex === -1 && userInput.length > expected.length) {
@@ -76,6 +84,8 @@ function showFeedback(correct, expected, userInput) {
       <strong>あなたの答え:</strong> ${userInput}<br/>
       <strong>ここが間違い:</strong> ${correctPart}<span style="color:red">${wrongPart}</span>
     `;
+    streak = 0; // Reset streak on incorrect answer
+    updateScoreAndStreakDisplay();
   }
 
   answerInput.disabled = true;
@@ -106,3 +116,7 @@ if (speakBtn) {
     }
   });
 }
+
+// Initialize displays when the page loads
+if (scoreDisplay) scoreDisplay.textContent = "Score: 0";
+if (streakDisplay) streakDisplay.textContent = "Streak: 0";
