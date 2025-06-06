@@ -28,7 +28,7 @@ Papa.parse("questions.csv", {
   download: true,
   header: true,
   complete: function(results) {
-    questions = results.data.filter(q => q.jp); // Remove empty rows
+   questions = results.data.filter(q => q.jp && q.en); // Remove empty rows
     // Wait for user interaction, so showQuestion isn't called yet
   }
 });
@@ -45,7 +45,7 @@ function speak(text) {
 
 function showQuestion() {
   currentQuestion = getRandomQuestion();
-  questionDisplay.textContent = `${currentQuestion.jp}`;
+ questionDisplay.textContent = `${currentQuestion.en} ${currentQuestion.jp}`;
   answerInput.value = "";
   answerInput.disabled = false;
   feedback.innerHTML = "";
