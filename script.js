@@ -14,7 +14,7 @@ const answerInput = document.getElementById("answerInput");
 const feedback = document.getElementById("feedback");
 const nextBtn = document.getElementById("nextBtn");
 const scoreDisplay = document.getElementById("score");
-const streakDisplay = document.getElementById("streak"); // Add streak display (assume you add an element with id="streak" in HTML)
+const streakDisplay = document.getElementById("コンボ"); // Add streak display (assume you add an element with id="streak" in HTML)
 
 // Track user interaction to allow audio playback
 startBtn.addEventListener("click", () => {
