@@ -86,13 +86,18 @@ function loadProgress() {
 
 
 function checkLevelUp() {
-  const xpNeeded = level * 10; // You can update this with a table later
+  const baseXP = 1;
+  const xpNeeded = (level ** 2) * baseXP;
+
   if (xp >= xpNeeded) {
     level++;
     xp -= xpNeeded;
     feedback.innerHTML += `<br/>🎉 レベルアップ！Now Level ${level}`;
+    saveProgress(); // Ensure progress is saved after level up
+    updateXPDisplay();
   }
 }
+
 
 function showFeedback(correct, expected, userInput) {
   if (correct) {
